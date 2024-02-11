@@ -37,6 +37,10 @@
     cursor: pointer;
 }
 
+.nav-menu li a {
+    text-decoration: none; 
+  }
+
 .nav-menu hr {
     border: none;
     width: 80%;
