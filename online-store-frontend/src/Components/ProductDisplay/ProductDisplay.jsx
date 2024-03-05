@@ -41,7 +41,28 @@ export const ProductDisplay = (props) => {
             ${product.new_price}
           </div>
         </div>
-        <div className="product-display-right-description"></div>
+        <div className="product-display-right-description">
+          A lightweight, usually knitted, pullover shirt, close-fitting and with
+          a round neckline and short sleeves, worn as an undershirt or outer
+          garment.
+        </div>
+        <div className="product-display-right-size">
+          <h1>Select size:</h1>
+          <div className="product-display-right-sizes">
+            <div>Small</div>
+            <div>Mediu</div>
+            <div>Large</div>
+            <div>XL</div>
+            <div>XXL</div>
+          </div>
+        </div>
+        <button>ADD TO CART</button>
+        <p className="product-display-right-category">
+          <span>Category:</span>Women, T-Shirt, Crop Top
+        </p>
+        <p className="product-display-right-category">
+          <span>Tags:</span>Moder, Latest
+        </p>
       </div>
     </div>
   );
