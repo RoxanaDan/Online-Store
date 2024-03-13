@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import "./CSS/ShopCategory.css";
 import { ShopContext } from "../Context/ShopContext";
 import dropdown_icon from "../Components/Assets/dropdown_icon.png";
-import Item from "../Components/Items/Item";
+import Item from "../Components/Item/Item";
 
 export const ShopCategory = (props) => {
   const { all_product } = useContext(ShopContext);
@@ -36,9 +36,7 @@ export const ShopCategory = (props) => {
           }
         })}
       </div>
-      <div className="shopcategory-loadmore">
-        Explore more
-      </div>
+      <div className="shopcategory-loadmore">Explore more</div>
     </div>
   );
 };
