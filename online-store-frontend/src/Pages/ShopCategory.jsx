@@ -23,7 +23,7 @@ export const ShopCategory = (props) => {
           if (props.category === item.category) {
             return (
               <Item
-                key={1}
+                key={i}
                 id={item.id}
                 name={item.name}
                 image={item.image}
