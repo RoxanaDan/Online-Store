@@ -19,8 +19,8 @@ export const CartItems = () => {
       {all_product.map((e) => {
         if (cartItems[e.id] > 0) {
           return (
-            <div className="cart-items-format">
-              <img src={e.image} alt="" className="cart-icon-product-icon" />
+            <div className="cart-items-format cart-items-main-format">
+              <img src={e.image} alt="" className="cart-icon-product" />
               <p>{e.name}</p>
               <p>LEI {e.new_price}</p>
               <button className="cart-items-quantity">{cartItems[e.id]}</button>
@@ -29,12 +29,42 @@ export const CartItems = () => {
                 src={remove_icon}
                 onClick={() => removeFromCart(e.id)}
                 alt=""
-                className="cart-icon-product-icon"
+                className="cart-item-remove-icon"
               />
             </div>
           );
         }
+        return null;
       })}
+      <div className="cart-items-down">
+        <div className="cart-items-total">
+          <h1>cart Totals</h1>
+          <div>
+            <div className="cart-items-total-item">
+              <p>Subtotal</p>
+              <p>${0}</p>
+            </div>
+            <hr />
+            <div className="cart-items-total-item">
+              <p>Shipping fee</p>
+              <p>Free</p>
+            </div>
+            <hr />
+            <div className="cart-items-total-item">
+              <h3>Total</h3>
+              <h3>${0}</h3>
+            </div>
+          </div>
+          <button>PROCEED TO CHECKOUT</button>
+        </div>
+        <div className="cart-items-promo-code">
+            <p>If you have a promo code, enter it here</p>
+            <div className="cart-items-promo-box">
+                <input type="text" placeholder="promo code"/>
+                <button>Submit</button>
+            </div>
+        </div>
+      </div>
     </div>
   );
 };
