@@ -4,7 +4,7 @@ import { ShopContext } from "../../Context/ShopContext";
 import remove_icon from "../Assets/cart_cross_icon.png";
 
 export const CartItems = () => {
-  const { all_product, cartItems, removeFromCart } = useContext(ShopContext);
+  const { getTotalCartAmount, all_product, cartItems, removeFromCart } = useContext(ShopContext);
   return (
     <div className="cart-items">
       <div className="cart-items-main-format">
@@ -22,9 +22,9 @@ export const CartItems = () => {
             <div className="cart-items-format cart-items-main-format">
               <img src={e.image} alt="" className="cart-icon-product" />
               <p>{e.name}</p>
-              <p>LEI {e.new_price}</p>
+              <p>{e.new_price} LEI</p>
               <button className="cart-items-quantity">{cartItems[e.id]}</button>
-              <p>LEI {e.new_price * cartItems[e.id]}</p>
+              <p>{e.new_price * cartItems[e.id]} LEI</p>
               <img
                 src={remove_icon}
                 onClick={() => removeFromCart(e.id)}
@@ -42,7 +42,7 @@ export const CartItems = () => {
           <div>
             <div className="cart-items-total-item">
               <p>Subtotal</p>
-              <p>${0}</p>
+              <p>{getTotalCartAmount()} LEI</p>
             </div>
             <hr />
             <div className="cart-items-total-item">
@@ -52,17 +52,17 @@ export const CartItems = () => {
             <hr />
             <div className="cart-items-total-item">
               <h3>Total</h3>
-              <h3>${0}</h3>
+              <h3>{getTotalCartAmount()} LEI</h3>
             </div>
           </div>
           <button>PROCEED TO CHECKOUT</button>
         </div>
         <div className="cart-items-promo-code">
-            <p>If you have a promo code, enter it here</p>
-            <div className="cart-items-promo-box">
-                <input type="text" placeholder="promo code"/>
-                <button>Submit</button>
-            </div>
+          <p>If you have a promo code, enter it here</p>
+          <div className="cart-items-promo-box">
+            <input type="text" placeholder="promo code" />
+            <button>Submit</button>
+          </div>
         </div>
       </div>
     </div>

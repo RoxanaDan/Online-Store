@@ -36,10 +36,10 @@ export const ProductDisplay = (props) => {
         </div>
         <div className="product-display-right-prices">
           <div className="product-display-right-price-old">
-            LEI {product.old_price}
+            {product.old_price} LEI
           </div>
           <div className="product-display-right-price-new">
-            LEI {product.new_price}
+            {product.new_price} LEI
           </div>
         </div>
         <div className="product-display-right-description">
