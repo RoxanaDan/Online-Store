@@ -18,7 +18,7 @@ export const ProductDisplay = (props) => {
         </div>
         <div className="product-display-img">
           <img
-            className="prodcut-display-main-img"
+            className="product-display-main-img"
             src={product.image}
             alt=""
           />
