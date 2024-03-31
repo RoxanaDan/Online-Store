@@ -43,7 +43,8 @@
     width: 220px;
   }
 
-  .item-price-old {
+  .item-price-old,
+  .item-price-new {
     font-size: 14px;
   }
 }
@@ -58,7 +59,8 @@
     width: 170px;
   }
 
-  .item-price-old {
+  .item-price-old,
+  .item-price-new {
     font-size: 13px;
   }
 }
@@ -73,7 +75,8 @@
     width: 120px;
   }
 
-  .item-price-old {
+  .item-price-old,
+  .item-price-new {
     font-size: 12px;
   }
 }
