@@ -39,7 +39,7 @@ app.post("/upload", upload.single('product'), (req, res) => {
 })
 
 // Schema for creating products 
-const Product = mongoose.model("Prodct", {
+const Product = mongoose.model("Product", {
     id: {
         type: Number,
         required: true,
@@ -97,7 +97,7 @@ app.post('/add-product', async (req, res) => {
     })
     await product.save();
     res.json({
-        succes: true,
+        success: true,
         name: req.body.name
     })
 })
@@ -106,7 +106,7 @@ app.post('/add-product', async (req, res) => {
 app.post('/remove-product', async (req, res) => {
     await Product.findOneAndDelete({ id: req.body.id });
     res.json({
-        succes: true,
+        success: true,
         name: req.body.name
     })
 })
