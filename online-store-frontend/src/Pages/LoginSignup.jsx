@@ -14,7 +14,6 @@ export const LoginSignup = () => {
   };
 
   const login = async () => {
-    console.log("Login func", formData);
     let responseData;
     await fetch("http://localhost:4000/login", {
       method: "POST",
@@ -37,7 +36,6 @@ export const LoginSignup = () => {
   };
 
   const signup = async () => {
-    console.log("signup func", formData);
     let responseData;
     await fetch("http://localhost:4000/sign-up", {
       method: "POST",

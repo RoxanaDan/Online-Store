@@ -114,7 +114,6 @@ app.post('/remove-product', async (req, res) => {
 // Creating API for getting all products
 app.get('/all-products', async (req, res) => {
     let products = await Product.find({});
-    console.log("all products fetched");
     res.send(products);
 })
 
@@ -192,6 +191,84 @@ app.post('/login', async (req, res) => {
     else {
         res.json({ success: false, errors: "Wrong email" })
     }
+})
+
+//Endpoint for new collection data
+app.get('/new-collections', async (req, res) => {
+    let products = await Product.find({});
+    let newCollection = products.slice(1).slice(-8);
+    res.send(newCollection);
+})
+
+//Endpoint for popular in women
+app.get('/popular-in-women', async (req, res) => {
+    let products = await Product.find({ category: "women" });
+    let popularInWomen = products.slice(0, 4);
+    res.send(popularInWomen);
+})
+
+//Create middleware to fetch user
+const fetchUser = async (req, res, next) => {
+    const token = req.header('auth-token');
+    if (!token) {
+        res.status(401).send({ errors: "Please authenticate using valid token" })
+    }
+    else {
+        try {
+            const data = jwt.verify(token, 'secret_ecom');
+            req.user = data.user;
+            next();
+        } catch (error) {
+            res.status(401).send({ errors: "Please authenticate using a valid token" })
+        }
+    }
+}
+
+//Endpoint for adding products in cart
+app.post('/add-to-cart', fetchUser, async (req, res) => {
+    let userData = await User.findOne({ _id: req.user.id });
+    if (!userData.cartData) {
+        userData.cartData = {}; // Initialize cartData if it's undefined
+    }
+    userData.cartData[req.body.itemId] = (userData.cartData[req.body.itemId] || 0) + 1;
+    await User.findOneAndUpdate({ _id: req.user.id }, { cartData: userData.cartData });
+    res.send("Added");
+})
+
+//Endpoint to remove product from cart
+app.post('/remove-from-cart', fetchUser, async (req, res) => {
+    try {
+        const userData = await User.findOne({ _id: req.user.id });
+        if (!userData) {
+            return res.status(404).send("User not found");
+        }
+
+        // Ensure cartData exists before accessing it
+        if (!userData.cartData) {
+            userData.cartData = {};
+        }
+
+        const itemId = req.body.itemId;
+
+        // Check if the item exists in the cart before decrementing its quantity
+        if (userData.cartData[itemId] && userData.cartData[itemId] > 0) {
+            userData.cartData[itemId] -= 1;
+        } else {
+            return res.status(400).send("Item not found in the cart");
+        }
+
+        await User.findOneAndUpdate({ _id: req.user.id }, { cartData: userData.cartData });
+        res.send("Removed");
+    } catch (error) {
+        console.error("Error removing item from cart:", error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+//Endpoint to get cartdata
+app.post('/get-cart', fetchUser, async (req, res) => {
+    let userData = await User.findOne({ _id: req.user.id });
+    res.json(userData.cartData);
 })
 
 app.listen(port, (error) => {

@@ -18,10 +18,37 @@ const ShopContextProvider = (props) => {
     fetch("http://localhost:4000/all-products")
       .then((respone) => respone.json())
       .then((data) => setAllProducts(data));
+
+    if (localStorage.getItem("auth-token")) {
+      fetch("http://localhost:4000/get-cart", {
+        method: "POST",
+        headers: {
+          Accept: "application/form-data",
+          "auth-token": `${localStorage.getItem("auth-token")}`,
+          "Content-Type": "application/json",
+        },
+        body: "",
+      })
+        .then((response) => response.json())
+        .then((data) => setCartItems(data));
+    }
   }, []);
 
   const addToCart = (itemId) => {
     setCartItems((prev) => ({ ...prev, [itemId]: (prev[itemId] || 0) + 1 }));
+    if (localStorage.getItem("auth-token")) {
+      fetch("http://localhost:4000/add-to-cart", {
+        method: "POST",
+        headers: {
+          Accept: "application/form-data",
+          "auth-token": `${localStorage.getItem("auth-token")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ itemId: itemId }),
+      })
+        .then((response) => response.json())
+        .then((data) => console.log(data));
+    }
   };
 
   const getTotalCartAmount = () => {
@@ -38,13 +65,20 @@ const ShopContextProvider = (props) => {
   };
 
   const removeFromCart = (itemId) => {
-    setCartItems((prev) => {
-      const updatedCount = (prev[itemId] || 0) - 1;
-      return {
-        ...prev,
-        [itemId]: updatedCount < 0 ? 0 : updatedCount,
-      };
-    });
+    setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
+    if (localStorage.getItem("auth-token")) {
+      fetch("http://localhost:4000/remove-from-cart", {
+        method: "POST",
+        headers: {
+          Accept: "application/form-data",
+          "auth-token": `${localStorage.getItem("auth-token")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ itemId: itemId }),
+      })
+        .then((response) => response.json())
+        .then((data) => console.log(data));
+    }
   };
 
   const getTotalCartItems = () => {
