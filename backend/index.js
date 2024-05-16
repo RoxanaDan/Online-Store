@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const path = require("path");
 const cors = require("cors");
+const bcrypt = require('bcrypt');
 
 app.use(express.json());
 app.use(cors());
@@ -142,30 +143,31 @@ const User = mongoose.model('User', {
 app.post('/sign-up', async (req, res) => {
     let check = await User.findOne({ email: req.body.email });
     if (check) {
-        res.status(400).json({ success: false, errors: "existing user found with same email address" })
+        res.status(400).json({ success: false, errors: "An account with this email already exists" })
     }
+
     let cart = {};
     for (let i = 0; i < 300; i++) {
         cart[i] = 0;
 
     }
+
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
     const user = new User({
         name: req.body.username,
         email: req.body.email,
-        password: req.body.password,
+        password: hashedPassword,
         cartData: cart
     })
 
-    await user.save();
-
-    const data = {
-        user: {
-            id: user.id
-        }
+    try {
+        await user.save();
+        const token = jwt.sign({ user: { id: user._id } }, 'secret_key');
+        res.json({ success: true, token });
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Failed to create account" });
     }
-
-    const token = jwt.sign(data, 'secret_ecom')
-    res.json({ success: true, token })
 })
 
 // Endpoint for user login
@@ -173,25 +175,21 @@ app.post('/login', async (req, res) => {
     let user = await User.findOne({
         email: req.body.email
     });
-    if (user) {
-        const passwordCompare = req.body.password === user.password;
-        if (passwordCompare) {
-            const data = {
-                user: {
-                    id: user.id
-                }
-            }
-            const token = jwt.sign(data, 'secret_ecom');
-            res.json({ success: true, token })
-        }
-        else {
-            res.json({ success: false, errors: "Wrong Password" })
-        }
+
+    if (!user) {
+        return res.status(404).json({ success: false, errors: "User not found" });
     }
-    else {
-        res.json({ success: false, errors: "Wrong email" })
+
+    const passwordMatch = await bcrypt.compare(req.body.password, user.password);
+
+    if (!passwordMatch) {
+        return res.status(401).json({ success: false, errors: "Incorrect password" });
     }
+
+    const token = jwt.sign({ user: { id: user._id } }, 'secret_key');
+    res.json({ success: true, token });
 })
+
 
 //Endpoint for new collection data
 app.get('/new-collections', async (req, res) => {
@@ -213,9 +211,10 @@ const fetchUser = async (req, res, next) => {
     if (!token) {
         res.status(401).send({ errors: "Please authenticate using valid token" })
     }
+
     else {
         try {
-            const data = jwt.verify(token, 'secret_ecom');
+            const data = jwt.verify(token, 'secret_key');
             req.user = data.user;
             next();
         } catch (error) {
