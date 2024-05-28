@@ -105,18 +105,35 @@ app.post('/add-product', async (req, res) => {
 
 // Creating API for deleting products
 app.post('/remove-product', async (req, res) => {
-    await Product.findOneAndDelete({ id: req.body.id });
-    res.json({
-        success: true,
-        name: req.body.name
-    })
-})
+    try {
+        const product = await Product.findOneAndDelete({ id: req.body.id });
+        if (!product) {
+            return res.status(404).json({
+                success: false,
+                message: "Product not found"
+            });
+        }
+        res.json({
+            success: true,
+            name: req.body.name
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Failed to delete product"
+        });
+    }
+});
 
 // Creating API for getting all products
 app.get('/all-products', async (req, res) => {
-    let products = await Product.find({});
-    res.send(products);
-})
+    try {
+        let products = await Product.find({});
+        res.send(products);
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Failed to retrieve products" });
+    }
+});
 
 // Schema for creating User Model
 const User = mongoose.model('User', {

@@ -34,7 +34,7 @@ export const Navbar = () => {
             setMenu("shop");
           }}
         >
-          <Link to="/">Shop</Link>
+          <Link to="/">Home</Link>
           {menu === "shop" ? <hr /> : <></>}
         </li>
         <li
