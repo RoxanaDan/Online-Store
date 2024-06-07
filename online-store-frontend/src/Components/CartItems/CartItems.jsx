@@ -39,7 +39,7 @@ export const CartItems = () => {
       })}
       <div className="cart-items-down">
         <div className="cart-items-total">
-          <h1>cart Totals</h1>
+          <h1>Cart totals</h1>
           <div>
             <div className="cart-items-total-item">
               <p>Subtotal</p>

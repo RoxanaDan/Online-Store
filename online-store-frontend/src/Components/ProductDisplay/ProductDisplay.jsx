@@ -65,10 +65,10 @@ export const ProductDisplay = (props) => {
           ADD TO CART
         </button>
         <p className="product-display-right-category">
-          <span>Category:</span>Women, T-Shirt, Crop Top
+          <span>Category: </span>Women, T-Shirt, Crop Top
         </p>
         <p className="product-display-right-category">
-          <span>Tags:</span>Moder, Latest
+          <span>Tags: </span>Moder, Latest
         </p>
       </div>
     </div>
