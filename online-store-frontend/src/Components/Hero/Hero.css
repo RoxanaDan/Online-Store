@@ -26,13 +26,13 @@
   font-weight: 700;
 }
 
-.hero-hand-icon {
+.hero-fashion-icon {
   display: flex;
   align-items: center;
   gap: 20px;
 }
 
-.hero-hand-icon img {
+.hero-fashion-icon img {
   width: 105px;
 }
 
@@ -71,7 +71,7 @@
     font-size: 60px;
   }
 
-  .hero-hand-icon img {
+  .hero-fashion-icon img {
     width: 80px;
   }
 
@@ -101,7 +101,7 @@
     font-size: 50px;
   }
 
-  .hero-hand-icon img {
+  .hero-fashion-icon img {
     width: 65px;
   }
 
@@ -129,7 +129,7 @@
     font-size: 40px;
   }
 
-  .hero-hand-icon img {
+  .hero-fashion-icon img {
     width: 50px;
   }
 
@@ -161,7 +161,7 @@
     font-size: 50px;
   }
 
-  .hero-hand-icon img {
+  .hero-fashion-icon img {
     width: 55px;
   }
 
